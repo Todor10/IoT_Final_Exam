@@ -1,4 +1,5 @@
 #include "hvac.h"
+#include "util.h"
 
 uint32_t controlLoopTimer = 0; 
 float currentTemperature;
@@ -28,9 +29,7 @@ void handleHvac() {
 
       disableCooling();
       enableHeating();
-    }
-
-
+    } 
   }
 }
 

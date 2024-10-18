@@ -3,6 +3,13 @@
 
 #include <Arduino.h>
 
+// Pins
+#define PIN_LIGHT 6
+#define PIN_PHOTORESISTOR A1
+
+#define ILLUMINATION_TRESHOLD 30.0
+#define ANALOG_VALUE_RANGE 1023.0
+
 #define DEFAULT_LIGHTING_STATE LIGHTING_STATE_OFF
 
 typedef enum {

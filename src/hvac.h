@@ -3,7 +3,7 @@
 #define HVAC_H
 
 #include <Arduino.h>
-#include "util.h"
+// #include "util.h"
 
 // Pins
 #define PIN_HEATER 4
@@ -11,10 +11,8 @@
 #define PIN_TEMPERATURE_SENSOR A0
 
 
-#define SECONDS_TO_MILLIS(seconds) seconds * 1000
 #define ADC_TO_TEMP 0.488f
 #define DEFAULT_TEMPERATURE 0
-#define CONTROL_LOOP_PERIOD_SECONDS 5
 #define HEATING_THRESHOLD 17 
 #define COOLING_THRESHOLD 23
 
