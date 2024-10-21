@@ -20,7 +20,7 @@ void handleLighting(void) {
 
     if (readIllumination() < ILLUMINATION_TRESHOLD) {
       enableLight();
-      logWithTimestamp("Light ON: Illumination < 30%");
+      // logWithTimestamp("Light ON: Illumination < 30%");
     } else {
       disableLight();
       }
