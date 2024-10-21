@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 
-#define CONTROL_LOOP_PERIOD_SECONDS 5
+#define CONTROL_LOOP_PERIOD_SECONDS 10
 #define SECONDS_TO_MILLIS(seconds) seconds * 1000
 
 

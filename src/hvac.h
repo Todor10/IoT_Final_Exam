@@ -3,7 +3,6 @@
 #define HVAC_H
 
 #include <Arduino.h>
-// #include "util.h"
 
 // Pins
 #define PIN_HEATER 4

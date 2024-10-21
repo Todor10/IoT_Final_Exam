@@ -4,7 +4,7 @@
 LightingState currentState;
 LightingState previousState;
 
-uint32_t controlLoopTimer2 = 0; 
+uint32_t controlLoopTimerLighting = 0; 
 
 void initLighting(void) {
   disableLight();
@@ -15,8 +15,8 @@ void initLighting(void) {
 void handleLighting(void) {
   
   if (currentState == LIGHTING_STATE_AUTO) {
-    if ((millis() - controlLoopTimer2) >= SECONDS_TO_MILLIS(CONTROL_LOOP_PERIOD_SECONDS)){
-    controlLoopTimer2 = millis();
+    if ((millis() - controlLoopTimerLighting) >= SECONDS_TO_MILLIS(CONTROL_LOOP_PERIOD_SECONDS)){
+    controlLoopTimerLighting = millis();
 
     if (readIllumination() < ILLUMINATION_TRESHOLD) {
       enableLight();
@@ -29,12 +29,10 @@ void handleLighting(void) {
 
   else if (currentState == LIGHTING_STATE_OFF) {
     disableLight();
-    // logWithTimestamp("Light OFF");
   }
 
   else if (currentState == LIGHTING_STATE_ON) {
     enableLight();
-    // logWithTimestamp("Light ON");
 
   }
 
@@ -57,7 +55,8 @@ float readIllumination(void) {
   illuminationPrecent = (sensorValue / ANALOG_VALUE_RANGE) * 100.0;
 
   // Debugging
-  logWithTimestamp("Iluminaiton: " + String(illuminationPrecent) + "%");
+  // logWithTimestamp("Iluminaiton: " + String(illuminationPrecent) + "%");
+  Serial.println(illuminationPrecent);
 
   return illuminationPrecent;
 }

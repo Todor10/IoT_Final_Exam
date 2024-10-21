@@ -10,8 +10,8 @@ void setup() {
 }
 
 void loop() {
-  handleHvac();
   handleSerial();
+  handleHvac();
   handleLighting();
 }
 

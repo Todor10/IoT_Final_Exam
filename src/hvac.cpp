@@ -1,7 +1,7 @@
 #include "hvac.h"
 #include "util.h"
 
-uint32_t controlLoopTimer = 0; 
+uint32_t controlLoopTimerHvac = 0; 
 float currentTemperature;
 
 void initHvac() {
@@ -13,19 +13,20 @@ void initHvac() {
 }
 
 void handleHvac() {
-  if ((millis() - controlLoopTimer) >= SECONDS_TO_MILLIS(CONTROL_LOOP_PERIOD_SECONDS)) {
+  if ((millis() - controlLoopTimerHvac) >= SECONDS_TO_MILLIS(CONTROL_LOOP_PERIOD_SECONDS)) {
     // Da mozemo vise puta da proveravamo
-    controlLoopTimer = millis();
+    controlLoopTimerHvac = millis();
 
     currentTemperature = readTemperature();
-    logWithTimestamp("Temp: " + String(currentTemperature) + "C");
+    // logWithTimestamp("Temp: " + String(currentTemperature) + "C");
+    Serial.println(currentTemperature);
     if (currentTemperature > COOLING_THRESHOLD) {
-      logWithTimestamp("Cooling enabled");
+      // logWithTimestamp("Cooling enabled");
 
       disableHeating();
       enableCooling();
     } else if (currentTemperature <= HEATING_THRESHOLD) {
-      logWithTimestamp("Heating enabled");
+      // logWithTimestamp("Heating enabled");
 
       disableCooling();
       enableHeating();
