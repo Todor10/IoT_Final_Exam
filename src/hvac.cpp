@@ -3,13 +3,13 @@
 
 uint32_t controlLoopTimerHvac = 0; 
 float currentTemperature;
-TemperatureControlState hvacCurrentState;
-TemperatureControlState hvacPreviousState;
+HvacState hvacCurrentState;
+HvacState hvacPreviousState;
 
 void initHvac() {
   currentTemperature = DEFAULT_TEMPERATURE;
-  hvacCurrentState = DEFAULT_TEMPERATURE_CONTROL_STATE;
-  hvacPreviousState = DEFAULT_TEMPERATURE_CONTROL_STATE;
+  hvacCurrentState = DEFAULT_HVAC_STATE;
+  hvacPreviousState = DEFAULT_HVAC_STATE;
 
   pinMode(PIN_COOLER, OUTPUT);
   pinMode(PIN_HEATER, OUTPUT);
@@ -21,7 +21,7 @@ void handleHvac() {
 
   if ((millis() - controlLoopTimerHvac) >= SECONDS_TO_MILLIS(CONTROL_LOOP_PERIOD_SECONDS)) {
 
-    if (hvacCurrentState == TEMPERATURE_CONTROL_ON) {
+    if (hvacCurrentState == HVAC_STATE_ON) {
       // Da mozemo vise puta da proveravamo
       controlLoopTimerHvac = millis();
 
@@ -41,7 +41,7 @@ void handleHvac() {
       }  
     }
 
-    else if (hvacCurrentState == TEMPERATURE_CONTROL_OFF) {
+    else if (hvacCurrentState == HVAC_STATE_OFF) {
       disableCooling();
       disableHeating();
       // Da mozemo vise puta da proveravamo
@@ -54,7 +54,7 @@ void handleHvac() {
   }
 }
 
-void switchTemperatureControlState(TemperatureControlState state) {
+void switchHvacState(HvacState state) {
   hvacPreviousState = hvacCurrentState;
   hvacCurrentState = state;
 }

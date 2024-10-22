@@ -32,11 +32,11 @@ void sendCommandToSerial(void) {
       switchLightingState(LIGHTING_STATE_SECURE);
     }
 
-    else if (msg == "TEMPERATURE CONTROL ON") {
-      switchTemperatureControlState(TEMPERATURE_CONTROL_ON);
+    else if (msg == "HVAC ON") {
+      switchHvacState(HVAC_STATE_ON);
     }
-    else if (msg == "TEMPERATURE CONTROL OF") {
-      switchTemperatureControlState(TEMPERATURE_CONTROL_OFF);
+    else if (msg == "HVAC OFF") {
+      switchHvacState(HVAC_STATE_OFF);
     }
   }
 }

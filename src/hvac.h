@@ -15,12 +15,12 @@
 #define HEATING_THRESHOLD 17 
 #define COOLING_THRESHOLD 23
 
-#define DEFAULT_TEMPERATURE_CONTROL_STATE TEMPERATURE_CONTROL_ON
+#define DEFAULT_HVAC_STATE HVAC_STATE_ON
 
 typedef enum {
-  TEMPERATURE_CONTROL_ON,
-  TEMPERATURE_CONTROL_OFF
-} TemperatureControlState;
+  HVAC_STATE_ON,
+  HVAC_STATE_OFF
+} HvacState;
 
 
 void enableCooling(void);
@@ -34,6 +34,6 @@ float readTemperature(void);
 void initHvac(void);
 void handleHvac(void);
 
-void switchTemperatureControlState(TemperatureControlState state);
+void switchHvacState(HvacState state);
 
 #endif // HVAC_H

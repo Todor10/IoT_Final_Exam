@@ -81,34 +81,72 @@ def receive(serialCom):
 def checkMail(email, serialCommunication):
    email.select('inbox')
    while True:
-      retcode, responseLightOn = email.search(None, '(SUBJECT "ON" UNSEEN)')
-      retcode, responseLightOff = email.search(None, '(SUBJECT "OFF" UNSEEN)')
+      retcode, responseLightOn = email.search(None, '(SUBJECT "LIGHT ON" UNSEEN)')
+      retcode, responseLightOff = email.search(None, '(SUBJECT "LIGHT OFF" UNSEEN)')
+      retcode, responseLightAuto = email.search(None, '(SUBJECT "LIGHT AUTO" UNSEEN)')
+      # ADD SECURE
+
+      retcode, responseHvacOn = email.search(None, '(SUBJECT "HVAC ON" UNSEEN)')
+      retcode, responseHvacOff = email.search(None, '(SUBJECT "HVAC OFF" UNSEEN)')
+
+
       retcode, responseSE = email.search(None, '(SUBJECT "SEND REPORT" UNSEEN)')
 
-      # Write ON in serial
+      # Write LIGHT ON in serial
       if len(responseLightOn[0]) > 0:
         text = "LIGHT ON"
         serialCommunication.write(text.encode('ascii'))  
         emailIds = responseLightOn[0].split()
         for id in emailIds:
             email.store(id, '+FLAGS', '\\Seen')
+        print('LIGHT ON')
 
-      # Write OFF in serial
+      # Write LIGHT OFF in serial
       if len(responseLightOff[0]) > 0:
         text = "LIGHT OFF"
         serialCommunication.write(text.encode('ascii'))  
         emailIds = responseLightOff[0].split()
         for id in emailIds:
             email.store(id, '+FLAGS', '\\Seen')
-
+        print('LIGHT OFF')
       
+      # Write LIGHT AUTO in serial
+      if len(responseLightAuto[0]) > 0:
+        text = "LIGHT AUTO"
+        serialCommunication.write(text.encode('ascii'))  
+        emailIds = responseLightAuto[0].split()
+        for id in emailIds:
+            email.store(id, '+FLAGS', '\\Seen')
+        print('LIGHT AUTO')    
+      
+      # Write LIGHT SECURE in serial
 
-       # SEND REPORT 
+      # Write TEMPERATURE CONTROL ON in serial
+      if len(responseHvacOn[0]) > 0:
+        text = "HVAC ON"
+        serialCommunication.write(text.encode('ascii'))  
+        emailIds = responseHvacOn[0].split()
+        for id in emailIds:
+            email.store(id, '+FLAGS', '\\Seen')
+        print('HVAC ON')
+        
+      # Write TEMPERATURE CONTROL OF in serial
+      if len(responseHvacOff[0]) > 0:
+        text = "HVAC OFF"
+        serialCommunication.write(text.encode('ascii'))  
+        emailIds = responseHvacOff[0].split()
+        for id in emailIds:
+            email.store(id, '+FLAGS', '\\Seen')
+        print('HVAC OFF')
+
+      # SEND REPORT 
       if len(responseSE[0]) > 0:
         emailIds = responseSE[0].split()
         for id in emailIds:
           email.store(id, '+FLAGS', '\\Seen')
         sendReport()
+        print('REPORT SENT')
+      
 
 def sendReport():
   message = MIMEMultipart()
