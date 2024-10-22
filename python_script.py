@@ -87,7 +87,7 @@ def checkMail(email, serialCommunication):
 
       # Write ON in serial
       if len(responseLightOn[0]) > 0:
-        text = "ON"
+        text = "LIGHT ON"
         serialCommunication.write(text.encode('ascii'))  
         emailIds = responseLightOn[0].split()
         for id in emailIds:
@@ -95,11 +95,13 @@ def checkMail(email, serialCommunication):
 
       # Write OFF in serial
       if len(responseLightOff[0]) > 0:
-        text = "OFF"
+        text = "LIGHT OFF"
         serialCommunication.write(text.encode('ascii'))  
         emailIds = responseLightOff[0].split()
         for id in emailIds:
             email.store(id, '+FLAGS', '\\Seen')
+
+      
 
        # SEND REPORT 
       if len(responseSE[0]) > 0:

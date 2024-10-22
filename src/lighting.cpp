@@ -1,20 +1,20 @@
 #include "lighting.h"
 #include "util.h"
 
-LightingState currentState;
-LightingState previousState;
+LightingState lightingCurrentState;
+LightingState lightingPreviousState;
 
 uint32_t controlLoopTimerLighting = 0; 
 
 void initLighting(void) {
   disableLight();
-  currentState = DEFAULT_LIGHTING_STATE;
-  previousState = DEFAULT_LIGHTING_STATE;
+  lightingCurrentState = DEFAULT_LIGHTING_STATE;
+  lightingPreviousState = DEFAULT_LIGHTING_STATE;
 }
 
 void handleLighting(void) {
   
-  if (currentState == LIGHTING_STATE_AUTO) {
+  if (lightingCurrentState == LIGHTING_STATE_AUTO) {
     if ((millis() - controlLoopTimerLighting) >= SECONDS_TO_MILLIS(CONTROL_LOOP_PERIOD_SECONDS)){
     controlLoopTimerLighting = millis();
 
@@ -27,23 +27,23 @@ void handleLighting(void) {
     }
   }
 
-  else if (currentState == LIGHTING_STATE_OFF) {
+  else if (lightingCurrentState == LIGHTING_STATE_OFF) {
     disableLight();
   }
 
-  else if (currentState == LIGHTING_STATE_ON) {
+  else if (lightingCurrentState == LIGHTING_STATE_ON) {
     enableLight();
 
   }
 
-  else if (currentState == LIGHTING_STATE_SECURE) {
+  else if (lightingCurrentState == LIGHTING_STATE_SECURE) {
 
   }
 }
 
 void switchLightingState(LightingState state) {
-  previousState = currentState;
-  currentState = state;
+  lightingPreviousState = lightingCurrentState;
+  lightingCurrentState = state;
 }
 
 float readIllumination(void) {
