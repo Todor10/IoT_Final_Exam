@@ -5,6 +5,7 @@ LightingState lightingCurrentState;
 LightingState lightingPreviousState;
 
 uint32_t controlLoopTimerLighting = 0; 
+float illuminationPrecent;
 
 void initLighting(void) {
   disableLight();
@@ -14,30 +15,35 @@ void initLighting(void) {
 
 void handleLighting(void) {
   
-  if (lightingCurrentState == LIGHTING_STATE_AUTO) {
-    if ((millis() - controlLoopTimerLighting) >= SECONDS_TO_MILLIS(CONTROL_LOOP_PERIOD_SECONDS)){
-    controlLoopTimerLighting = millis();
+  if ((millis() - controlLoopTimerLighting) >= SECONDS_TO_MILLIS(CONTROL_LOOP_PERIOD_SECONDS)){
 
-    if (readIllumination() < ILLUMINATION_TRESHOLD) {
+    illuminationPrecent = readIllumination(); 
+
+    if (lightingCurrentState == LIGHTING_STATE_AUTO) {
+      controlLoopTimerLighting = millis();
+
+    if (illuminationPrecent < ILLUMINATION_TRESHOLD) {
       enableLight();
       // logWithTimestamp("Light ON: Illumination < 30%");
     } else {
       disableLight();
       }
     }
-  }
+  
 
-  else if (lightingCurrentState == LIGHTING_STATE_OFF) {
-    disableLight();
-  }
+    else if (lightingCurrentState == LIGHTING_STATE_OFF) {
+      controlLoopTimerLighting = millis();
+      disableLight();
+    }
 
-  else if (lightingCurrentState == LIGHTING_STATE_ON) {
-    enableLight();
+    else if (lightingCurrentState == LIGHTING_STATE_ON) {
+      controlLoopTimerLighting = millis();
+      enableLight();
+    }
 
-  }
-
-  else if (lightingCurrentState == LIGHTING_STATE_SECURE) {
-
+    else if (lightingCurrentState == LIGHTING_STATE_SECURE) {
+      controlLoopTimerLighting = millis();
+    }
   }
 }
 
