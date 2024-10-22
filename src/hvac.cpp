@@ -42,10 +42,33 @@ void handleHvac() {
     }
 
     else if (hvacCurrentState == HVAC_STATE_OFF) {
+      controlLoopTimerHvac = millis();
+
       disableCooling();
       disableHeating();
-      // Da mozemo vise puta da proveravamo
+
+      currentTemperature = readTemperature();
+      // logWithTimestamp("Temp: " + String(currentTemperature) + "C");
+      Serial.println(currentTemperature);
+    }
+
+    // Only heating
+    else if (hvacCurrentState == HVAC_STATE_ONLY_HEATING) {
       controlLoopTimerHvac = millis();
+
+      disableCooling();
+      enableHeating();
+
+      currentTemperature = readTemperature();
+      // logWithTimestamp("Temp: " + String(currentTemperature) + "C");
+      Serial.println(currentTemperature);
+    }
+    // Only cooling
+    else if (hvacCurrentState == HVAC_STATE_ONLY_COOLING) {
+      controlLoopTimerHvac = millis();
+
+      disableHeating();
+      enableCooling();
 
       currentTemperature = readTemperature();
       // logWithTimestamp("Temp: " + String(currentTemperature) + "C");

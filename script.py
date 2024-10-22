@@ -88,6 +88,8 @@ def checkMail(email, serialCommunication):
 
       retcode, responseHvacOn = email.search(None, '(SUBJECT "HVAC ON" UNSEEN)')
       retcode, responseHvacOff = email.search(None, '(SUBJECT "HVAC OFF" UNSEEN)')
+      retcode, responseCooling = email.search(None, '(SUBJECT "COOLING" UNSEEN)')
+      retcode, responseHeating = email.search(None, '(SUBJECT "HEATING" UNSEEN)')
 
 
       retcode, responseSE = email.search(None, '(SUBJECT "SEND REPORT" UNSEEN)')
@@ -121,7 +123,7 @@ def checkMail(email, serialCommunication):
       
       # Write LIGHT SECURE in serial
 
-      # Write TEMPERATURE CONTROL ON in serial
+      # Write HVAC ON in serial
       if len(responseHvacOn[0]) > 0:
         text = "HVAC ON"
         serialCommunication.write(text.encode('ascii'))  
@@ -130,7 +132,7 @@ def checkMail(email, serialCommunication):
             email.store(id, '+FLAGS', '\\Seen')
         print('HVAC ON')
         
-      # Write TEMPERATURE CONTROL OF in serial
+      # Write HVAC OFF in serial
       if len(responseHvacOff[0]) > 0:
         text = "HVAC OFF"
         serialCommunication.write(text.encode('ascii'))  
@@ -138,6 +140,24 @@ def checkMail(email, serialCommunication):
         for id in emailIds:
             email.store(id, '+FLAGS', '\\Seen')
         print('HVAC OFF')
+
+      # Write COOLING in serial
+      if len(responseCooling[0]) > 0:
+        text = "COOLING"
+        serialCommunication.write(text.encode('ascii'))  
+        emailIds = responseCooling[0].split()
+        for id in emailIds:
+            email.store(id, '+FLAGS', '\\Seen')
+        print('COOLING')
+
+      # Write HEATING in serial
+      if len(responseHeating[0]) > 0:
+        text = "HEATING"
+        serialCommunication.write(text.encode('ascii'))  
+        emailIds = responseHeating[0].split()
+        for id in emailIds:
+            email.store(id, '+FLAGS', '\\Seen')
+        print('HEATING')
 
       # SEND REPORT 
       if len(responseSE[0]) > 0:

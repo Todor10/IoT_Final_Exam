@@ -38,5 +38,11 @@ void sendCommandToSerial(void) {
     else if (msg == "HVAC OFF") {
       switchHvacState(HVAC_STATE_OFF);
     }
+    else if (msg == "COOLING") {
+      switchHvacState(HVAC_STATE_ONLY_COOLING);
+    }
+    else if (msg == "HEATING") {
+      switchHvacState(HVAC_STATE_ONLY_HEATING);
+    }
   }
 }
