@@ -19,44 +19,42 @@ void initLighting(void) {
 
 void handleLighting(void) {
   
-  if ((millis() - controlLoopTimerLighting) >= SECONDS_TO_MILLIS(CONTROL_LOOP_PERIOD_SECONDS)){
-
     // Send illumination to serial
+  if ((millis() - controlLoopTimerLighting) >= SECONDS_TO_MILLIS(CONTROL_LOOP_PERIOD_SECONDS)){
     illuminationPrecent = readIllumination(); 
+    // logWithTimestamp("Iluminaiton: " + String(illuminationPrecent) + "%");
+    Serial.println(illuminationPrecent);
     controlLoopTimerLighting = millis();
   }
 
-    if (lightingCurrentState == LIGHTING_STATE_AUTO) {
-      // controlLoopTimerLighting = millis();
+  if (lightingCurrentState == LIGHTING_STATE_AUTO) {
 
     if (illuminationPrecent < ILLUMINATION_TRESHOLD) {
       enableLight();
       // logWithTimestamp("Light ON: Illumination < 30%");
     } else {
       disableLight();
-      }
     }
+  }
   
 
-    else if (lightingCurrentState == LIGHTING_STATE_OFF) {
-      // controlLoopTimerLighting = millis();
-      disableLight();
-    }
+  else if (lightingCurrentState == LIGHTING_STATE_OFF) {
+    disableLight();
+  }
 
-    else if (lightingCurrentState == LIGHTING_STATE_ON) {
-      // controlLoopTimerLighting = millis();
-      enableLight();
-    }
+  else if (lightingCurrentState == LIGHTING_STATE_ON) {
+    enableLight();
+  }
   
 
   else if (lightingCurrentState == LIGHTING_STATE_SECURE) {
-    // controlLoopTimerLighting = millis();
 
     if(motionDetected()) {
       enableLight();
-      // If there is no motion next 10s, light off
       motionSensorTimer = millis();
     }
+    
+    // If there is no motion next 10s, light off
     if ((millis() - motionSensorTimer) >= 10000) {
       if (!motionDetected()) { // If no motion is detected after 10s 
         disableLight();
@@ -80,10 +78,6 @@ float readIllumination(void) {
   sensorValue = analogRead(PIN_PHOTORESISTOR);
 
   illuminationPrecent = (sensorValue / ANALOG_VALUE_RANGE) * 100.0;
-
-  // Debugging
-  // logWithTimestamp("Iluminaiton: " + String(illuminationPrecent) + "%");
-  Serial.println(illuminationPrecent);
 
   return illuminationPrecent;
 }

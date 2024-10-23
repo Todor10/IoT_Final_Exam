@@ -21,63 +21,42 @@ void initHvac() {
 
 void handleHvac() {
 
-
+  // Print temperature to serial
   if ((millis() - controlLoopTimerHvac) >= SECONDS_TO_MILLIS(CONTROL_LOOP_PERIOD_SECONDS)) {
+    currentTemperature = readTemperature();
+    // logWithTimestamp("Temp: " + String(currentTemperature) + "C");
+    Serial.println(currentTemperature);
+    controlLoopTimerHvac = millis();
+  }
 
-    if (hvacCurrentState == HVAC_STATE_ON) {
-      // Da mozemo vise puta da proveravamo
-      controlLoopTimerHvac = millis();
 
-      currentTemperature = readTemperature();
-      // logWithTimestamp("Temp: " + String(currentTemperature) + "C");
-      Serial.println(currentTemperature);
-      if (currentTemperature > COOLING_THRESHOLD) {
-        // logWithTimestamp("Cooling enabled");
+  if (hvacCurrentState == HVAC_STATE_ON) {
 
-        disableHeating();
-        enableCooling();
-      } else if (currentTemperature <= HEATING_THRESHOLD) {
-        // logWithTimestamp("Heating enabled");
-
-        disableCooling();
-        enableHeating();
-      }  
-    }
-
-    else if (hvacCurrentState == HVAC_STATE_OFF) {
-      controlLoopTimerHvac = millis();
-
-      disableCooling();
-      disableHeating();
-
-      currentTemperature = readTemperature();
-      // logWithTimestamp("Temp: " + String(currentTemperature) + "C");
-      Serial.println(currentTemperature);
-    }
-
-    // Only heating
-    else if (hvacCurrentState == HVAC_STATE_ONLY_HEATING) {
-      controlLoopTimerHvac = millis();
-
-      disableCooling();
-      enableHeating();
-
-      currentTemperature = readTemperature();
-      // logWithTimestamp("Temp: " + String(currentTemperature) + "C");
-      Serial.println(currentTemperature);
-    }
-    // Only cooling
-    else if (hvacCurrentState == HVAC_STATE_ONLY_COOLING) {
-      controlLoopTimerHvac = millis();
-
+    if (currentTemperature > COOLING_THRESHOLD) {
       disableHeating();
       enableCooling();
-
-      currentTemperature = readTemperature();
-      // logWithTimestamp("Temp: " + String(currentTemperature) + "C");
-      Serial.println(currentTemperature);
-    }
+    } else if (currentTemperature <= HEATING_THRESHOLD) {
+      disableCooling();
+      enableHeating();
+    }  
   }
+
+  else if (hvacCurrentState == HVAC_STATE_OFF) {
+    disableCooling();
+    disableHeating();
+  }
+
+  // Only heating
+  else if (hvacCurrentState == HVAC_STATE_ONLY_HEATING) {
+    disableCooling();
+    enableHeating();
+  }
+  // Only cooling
+  else if (hvacCurrentState == HVAC_STATE_ONLY_COOLING) {
+    disableHeating();
+    enableCooling();
+  }
+  
 }
 
 void switchHvacState(HvacState state) {
