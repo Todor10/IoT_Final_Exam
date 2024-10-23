@@ -14,6 +14,9 @@ void initHvac() {
   pinMode(PIN_COOLER, OUTPUT);
   pinMode(PIN_HEATER, OUTPUT);
   pinMode(PIN_TEMPERATURE_SENSOR, INPUT);
+
+  disableCooling();
+  disableHeating();
 }
 
 void handleHvac() {
@@ -83,19 +86,19 @@ void switchHvacState(HvacState state) {
 }
 
 void enableCooling(void) {
-  digitalWrite(PIN_COOLER, HIGH);
-}
-
-void disableCooling(void) {
   digitalWrite(PIN_COOLER, LOW);
 }
 
+void disableCooling(void) {
+  digitalWrite(PIN_COOLER, HIGH);
+}
+
 void enableHeating(void) {
-  digitalWrite(PIN_HEATER, HIGH);
+  digitalWrite(PIN_HEATER, LOW);
 }
 
 void disableHeating(void){
-  digitalWrite(PIN_HEATER, LOW);
+  digitalWrite(PIN_HEATER, HIGH);
 }
 
 float readTemperature(void) {
