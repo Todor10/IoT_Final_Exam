@@ -38,4 +38,6 @@ void handleHvac(void);
 
 void switchHvacState(HvacState state);
 
+float getCurrentTemperature(void);
+
 #endif // HVAC_H

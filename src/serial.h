@@ -8,5 +8,7 @@ void handleSerial(void);
 
 void sendCommandToSerial(void);
 
+void sendMail(void);
+void sendStatus(void);
 
 #endif // SERIAL_H

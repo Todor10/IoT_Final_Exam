@@ -1,9 +1,31 @@
 #include "serial.h"
 #include "lighting.h"
 #include "hvac.h"
+#include "util.h"
 
+uint32_t serialTimer = 0;
 void handleSerial(void) {
   sendCommandToSerial();
+   if (isControlLoopTimerExpired()){
+    serialTimer = millis();
+    sendStatus();
+   }
+}
+
+// SALJE SVE ODJEDNOM
+void sendStatus(void) {
+  float temperature = getCurrentTemperature();
+  float illumination = getIlluminationPercent();
+  uint32_t motionDetectCounter = getMotionDetectCounter();
+  uint32_t securedStateTimer = getSecuredStateTimer();
+  uint32_t autoStateTimer = getAutoStateTimer();
+
+  Serial.println("D," + String(temperature) + ',' + String(illumination) + ',' + String(motionDetectCounter) +
+    ',' + String(securedStateTimer) + ',' + String(autoStateTimer));
+}
+
+void sendMail(void) {
+  Serial.println('M');
 }
 
 

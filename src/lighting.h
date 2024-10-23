@@ -10,7 +10,8 @@
 #define ILLUMINATION_TRESHOLD 30.0
 #define ANALOG_VALUE_RANGE 1023.0
 
-#define DEFAULT_LIGHTING_STATE LIGHTING_STATE_SECURE
+#define DEFAULT_LIGHTING_STATE LIGHTING_STATE_AUTO
+#define DEFAULT_ILLUMINATION 100.0
 
 typedef enum {
   LIGHTING_STATE_AUTO,
@@ -29,6 +30,11 @@ void switchLightingState(LightingState state);
 
 void initLighting(void);
 void handleLighting(void);
+
+float getIlluminationPercent(void);
+uint32_t getMotionDetectCounter(void);
+uint32_t getSecuredStateTimer(void);
+uint32_t getAutoStateTimer(void);
 
 #endif // LIGHT_H
 

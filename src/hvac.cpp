@@ -22,16 +22,17 @@ void initHvac() {
 void handleHvac() {
 
   // Print temperature to serial
-  if ((millis() - controlLoopTimerHvac) >= SECONDS_TO_MILLIS(CONTROL_LOOP_PERIOD_SECONDS)) {
+  if (isControlLoopTimerExpired()){
     currentTemperature = readTemperature();
     // logWithTimestamp("Temp: " + String(currentTemperature) + "C");
-    Serial.println(currentTemperature);
+    // Serial.println(currentTemperature);
     controlLoopTimerHvac = millis();
   }
 
 
   if (hvacCurrentState == HVAC_STATE_ON) {
 
+    currentTemperature = readTemperature();
     if (currentTemperature > COOLING_THRESHOLD) {
       disableHeating();
       enableCooling();
@@ -83,4 +84,8 @@ void disableHeating(void){
 float readTemperature(void) {
   float temp = analogRead(PIN_TEMPERATURE_SENSOR) * ADC_TO_TEMP;
   return temp;
+}
+
+float getCurrentTemperature(void) {
+  return currentTemperature;
 }
