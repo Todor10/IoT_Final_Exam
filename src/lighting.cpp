@@ -27,18 +27,15 @@ void handleLighting(void) {
   if (isControlLoopTimerExpired()){
     illuminationPrecent = readIllumination(); 
 
-    // if (lightingCurrentState == LIGHTING_STATE_AUTO) {
-    //   autoStateTimer = autoStateTimer + CONTROL_LOOP_PERIOD_MINUTES; 
-    // }
-    // else if (lightingCurrentState == LIGHTING_STATE_SECURE) {
-    //   securedStateTimer = securedStateTimer + CONTROL_LOOP_PERIOD_MINUTES;
-    // }
+    if (lightingCurrentState == LIGHTING_STATE_AUTO) {
+      autoStateTimer = autoStateTimer + CONTROL_LOOP_PERIOD_MINUTES; 
+    }
+    else if (lightingCurrentState == LIGHTING_STATE_SECURE) {
+      securedStateTimer = securedStateTimer + CONTROL_LOOP_PERIOD_MINUTES;
+    }
   }
 
   if (lightingCurrentState == LIGHTING_STATE_AUTO) {
-
-    autoStateTimer += millis();
-
     illuminationPrecent = readIllumination();
     if (illuminationPrecent < ILLUMINATION_TRESHOLD) {
       enableLight();
