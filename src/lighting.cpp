@@ -12,6 +12,8 @@ uint32_t autoStateTimer = 0;
 
 bool isNotificationSent = false;
 
+uint32_t stateTimer = 0;
+
 
 void initLighting(void) {
   pinMode(PIN_LIGHT, OUTPUT);
@@ -24,15 +26,17 @@ void initLighting(void) {
 
 void handleLighting(void) {
   
-  if (isControlLoopTimerExpired()){
-    illuminationPrecent = readIllumination(); 
-
+  if((millis() - stateTimer) >= 1000){
     if (lightingCurrentState == LIGHTING_STATE_AUTO) {
       autoStateTimer = autoStateTimer + CONTROL_LOOP_PERIOD_MINUTES; 
     }
     else if (lightingCurrentState == LIGHTING_STATE_SECURE) {
       securedStateTimer = securedStateTimer + CONTROL_LOOP_PERIOD_MINUTES;
     }
+  }
+
+  if (isControlLoopTimerExpired()){
+    illuminationPrecent = readIllumination(); 
   }
 
   if (lightingCurrentState == LIGHTING_STATE_AUTO) {

@@ -18,6 +18,8 @@
 #define DEFAULT_LIGHTING_STATE LIGHTING_STATE_AUTO
 #define DEFAULT_ILLUMINATION 100.0
 
+#define STATE_TIMER_PERIOD 1000
+
 /**
  * @brief states used for lighting state machine
  * 
