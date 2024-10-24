@@ -27,7 +27,6 @@ void handleLighting(void) {
   
   if (isControlLoopTimerExpired()){
     illuminationPrecent = readIllumination(); 
-    controlLoopTimerLighting = millis();
 
     if (lightingCurrentState == LIGHTING_STATE_AUTO) {
       autoStateTimer = autoStateTimer + CONTROL_LOOP_PERIOD_MINUTES; 

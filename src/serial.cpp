@@ -4,7 +4,6 @@ uint32_t serialTimer = 0;
 void handleSerial(void) {
   sendCommandToSerial();
    if (isControlLoopTimerExpired()){
-    serialTimer = millis();
     sendStatus();
    }
 }

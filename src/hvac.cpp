@@ -21,7 +21,6 @@ void initHvac() {
 void handleHvac() {
   if (isControlLoopTimerExpired()){
     currentTemperature = readTemperature();
-    controlLoopTimerHvac = millis();
   }
 
   if (hvacCurrentState == HVAC_STATE_ON) {
