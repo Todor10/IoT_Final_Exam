@@ -28,7 +28,7 @@ void initLighting(void) {
 
 void handleLighting(void) {
   
-    // Send illumination to serial
+    // Nece uci ovde dok se ne izvrsi prvi loop
   if (isControlLoopTimerExpired()){
     illuminationPrecent = readIllumination(); 
     // logWithTimestamp("Iluminaiton: " + String(illuminationPrecent) + "%");
@@ -77,7 +77,7 @@ void handleLighting(void) {
     }
     
     // If there is no motion next 10s, light off
-    if ((millis() - motionSensorTimer) >= 10000) {
+    if ((millis() - motionSensorTimer) >= MOTION_DETECTED_PERIOD) {
       if (!motionDetected()) { // If no motion is detected after 10s 
         disableLight();
         isNotificationSent = false;
@@ -106,11 +106,11 @@ float readIllumination(void) {
 }
 
 void enableLight(void) {
-  digitalWrite(PIN_LIGHT, HIGH);
+  digitalWrite(PIN_LIGHT, LOW);
 }
 
 void disableLight(void) {
-  digitalWrite(PIN_LIGHT, LOW);
+  digitalWrite(PIN_LIGHT, HIGH);
 }
 
 float getIlluminationPercent(void) {

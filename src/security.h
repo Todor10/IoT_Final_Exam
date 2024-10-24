@@ -6,6 +6,8 @@
 // Pins
 #define PIN_MOTION_SENSOR 7
 
+#define MOTION_DETECTED_PERIOD 10000 // 10s
+
 /**
  * @brief initialization of security. Code that will be inside setup()
  * 
