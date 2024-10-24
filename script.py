@@ -11,8 +11,6 @@ from matplotlib import pyplot as plt
 import numpy as np
 import requests
 
-
-
 # Serial communication parameters
 PORT = 'COM6'
 BAUD_RATE = 9600
@@ -33,31 +31,31 @@ READ_FIELD3_URL = '{}channels/{}/fields/{}.json?api_key={}&results{}'.format(BAS
 READ_FIELD4_URL = '{}channels/{}/fields/{}.json?api_key={}&results{}'.format(BASE_URL, CHANNEL_ID, 4, API_KEY_READ, 10)
 READ_FIELD5_URL = '{}channels/{}/fields/{}.json?api_key={}&results{}'.format(BASE_URL, CHANNEL_ID, 5, API_KEY_READ, 10)
 
-temp = requests.get(READ_FIELD1_URL)
-illum = requests.get(READ_FIELD2_URL)
-motion = requests.get(READ_FIELD3_URL)
+temperature = requests.get(READ_FIELD1_URL)
+illumination = requests.get(READ_FIELD2_URL)
+motionCounter = requests.get(READ_FIELD3_URL)
 securedStateTimer = requests.get(READ_FIELD4_URL)
 autoStateTimer = requests.get(READ_FIELD5_URL)
 
-dataJsonTemperature = temp.json()
-dataJsonIllumination = illum.json()
-dataJsonMotion = motion.json()
+dataJsonTemperature = temperature.json()
+dataJsonIllumination = illumination.json()
+dataJsonMotion = motionCounter.json()
 dataJsonSecuredStateTimer = securedStateTimer.json()
 dataJsonAutoStateTimer = autoStateTimer.json()
 
 #Extract temperature
 feeds = dataJsonTemperature["feeds"]
-temperature = []
+temperatureArray = []
 for x in feeds:
     x = float(x["field1"])
-    temperature.append(x)
+    temperatureArray.append(x)
 
 #Extract illumination
 feeds_illum = dataJsonIllumination["feeds"]
-illumination = []
+illuminationArray = []
 for x in feeds_illum:
     x = float(x["field2"])
-    illumination.append(x)
+    illuminationArray.append(x)
 
 #Extract motion counter
 feeds_motion_counter = dataJsonMotion["feeds"]
@@ -214,6 +212,7 @@ def checkMail(email, serialCommunication):
         sendReport()
         print('REPORT SENT')
 
+# Send report when motion is detected
 def sendReportMotion():
   message = MIMEMultipart()
   message["Subject"] = 'Motion Detected'
@@ -224,7 +223,8 @@ def sendReportMotion():
   r = server.sendmail('todorovicn2002@gmail.com', 'todorovicn2002@gmail.com', message.as_string())
   server.quit()
   print('Motion Report sent!')
-   
+
+# For extracting data from graphs 
 def sum_local_maxima(arr):
   if len(arr) == 0:
     return 0
@@ -232,7 +232,6 @@ def sum_local_maxima(arr):
   total_sum = 0
   maximum_found = False
  
-  # Loop through the array
   for i in range(len(arr) - 1):
     if arr[i] > arr[i + 1]:
       total_sum += arr[i]
@@ -246,19 +245,17 @@ def sum_local_maxima(arr):
  
   return total_sum
       
-
+# Daily report
 def sendReport():
   message = MIMEMultipart()
   message["Subject"] = 'Report from my Arduino'
 
   plt.ioff()
-  x = np.arange(len(temperature))
-  # x = np.linspace(0, 23, (1*10))
-  # fig = plt.figure()
+  x = np.arange(len(temperatureArray))
   plt.title("Daily temperature")
   plt.xlabel("Hours")
   plt.ylabel("Temperature (C)")
-  plt.plot(x, temperature)
+  plt.plot(x, temperatureArray)
   fileName = 'report-temperature-{}.png'.format(datetime.date.today())
   plt.savefig('C:\\Users\\user\\Desktop\\Faks\\lV godina\\IoT\\Exercise\\thingSpeak\\' + fileName)
 
@@ -269,14 +266,11 @@ def sendReport():
 
   plt.clf()
 
-  # plt.ioff()
-  x = np.arange(len(illumination))
-  # x = np.linspace(0, 23, (1*10))
-  # fig = plt.figure()
+  x = np.arange(len(illuminationArray))
   plt.title("Daily illumination")
   plt.xlabel("Hours")
   plt.ylabel("Illumination (%)")
-  plt.plot(x, illumination)
+  plt.plot(x, illuminationArray)
   fileName = 'report-illumination-{}.png'.format(datetime.date.today())
   plt.savefig('C:\\Users\\user\\Desktop\\Faks\\lV godina\\IoT\\Exercise\\thingSpeak\\' + fileName)
 
@@ -287,10 +281,7 @@ def sendReport():
 
   plt.clf()
 
-  # plt.ioff()
   x = np.arange(len(motionCounterArray))
-  # x = np.linspace(0, 23, (1*10))
-  # fig = plt.figure()
   plt.title("Number of motion detections")
   plt.xlabel("Hours")
   plt.ylabel("#")
@@ -320,14 +311,14 @@ def sendReport():
               Total number of motion detections today : <strong>{:.2f}</strong> 
           </p>
           <p>
-              Duration how long home secure mode was Turned ON : <strong>{:.2f}</strong> 
+              Duration how long home secure mode was Turned ON : <strong>{:.2f}</strong> min
           </p>
           <p>
-              Duration how long light auto mode was Turned ON : <strong>{:.2f}</strong> 
+              Duration how long light auto mode was Turned ON : <strong>{:.2f}</strong> min 
           </p>
       </body>
     </html>
-    """.format(datetime.date.today(), np.min(temperature), np.max(temperature), np.average(temperature), np.min(illumination), np.max(illumination), np.average(illumination), sum_local_maxima(motionCounterArray), sum_local_maxima(securedStateTimerArray), sum_local_maxima(autoStateTimerArray))
+    """.format(datetime.date.today(), np.min(temperatureArray), np.max(temperatureArray), np.average(temperatureArray), np.min(illuminationArray), np.max(illuminationArray), np.average(illuminationArray), sum_local_maxima(motionCounterArray), sum_local_maxima(securedStateTimerArray), sum_local_maxima(autoStateTimerArray))
 
   mimeText = MIMEText(htmlText, 'html')
   message.attach(mimeText)
