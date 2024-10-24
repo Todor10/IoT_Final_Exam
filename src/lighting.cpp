@@ -3,7 +3,6 @@
 LightingState lightingCurrentState;
 LightingState lightingPreviousState;
 
-uint32_t controlLoopTimerLighting = 0; 
 uint32_t motionSensorTimer = 0;
 float illuminationPrecent;
 uint32_t motionDetectCounter = 0;
@@ -28,15 +27,17 @@ void handleLighting(void) {
   if (isControlLoopTimerExpired()){
     illuminationPrecent = readIllumination(); 
 
-    if (lightingCurrentState == LIGHTING_STATE_AUTO) {
-      autoStateTimer = autoStateTimer + CONTROL_LOOP_PERIOD_MINUTES; 
-    }
-    else if (lightingCurrentState == LIGHTING_STATE_SECURE) {
-      securedStateTimer = securedStateTimer + CONTROL_LOOP_PERIOD_MINUTES;
-    }
+    // if (lightingCurrentState == LIGHTING_STATE_AUTO) {
+    //   autoStateTimer = autoStateTimer + CONTROL_LOOP_PERIOD_MINUTES; 
+    // }
+    // else if (lightingCurrentState == LIGHTING_STATE_SECURE) {
+    //   securedStateTimer = securedStateTimer + CONTROL_LOOP_PERIOD_MINUTES;
+    // }
   }
 
   if (lightingCurrentState == LIGHTING_STATE_AUTO) {
+
+    autoStateTimer += millis();
 
     illuminationPrecent = readIllumination();
     if (illuminationPrecent < ILLUMINATION_TRESHOLD) {

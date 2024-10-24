@@ -1,6 +1,5 @@
 #include "hvac.h"
 
-uint32_t controlLoopTimerHvac = 0; 
 float currentTemperature;
 HvacState hvacCurrentState;
 HvacState hvacPreviousState;
