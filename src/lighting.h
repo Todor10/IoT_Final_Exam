@@ -1,6 +1,10 @@
 #ifndef LIGHT_H
 #define LIGHT_H
 
+#include "util.h"
+#include "security.h"
+#include "serial.h"
+
 #include <Arduino.h>
 
 // Pins

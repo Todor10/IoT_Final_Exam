@@ -2,6 +2,8 @@
 #ifndef HVAC_H // Ako nije definsano, definisi https://www.geeksforgeeks.org/include-guards-in-c/
 #define HVAC_H
 
+#include "util.h"
+
 #include <Arduino.h>
 
 // Pins

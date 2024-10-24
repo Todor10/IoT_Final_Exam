@@ -1,6 +1,10 @@
 #ifndef SERIAL_H
 #define SERIAL_H
 
+#include "lighting.h"
+#include "hvac.h"
+#include "util.h"
+
 #include <Arduino.h>
 /**
  * @brief code that will be inside loop()

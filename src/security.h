@@ -1,6 +1,8 @@
 #ifndef SECURITY_H
 #define SECURITY_H
 
+#include "lighting.h"
+
 #include <Arduino.h>
 
 // Pins

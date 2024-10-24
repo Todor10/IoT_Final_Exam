@@ -1,5 +1,4 @@
 #include "hvac.h"
-#include "util.h"
 
 uint32_t controlLoopTimerHvac = 0; 
 float currentTemperature;
@@ -20,15 +19,10 @@ void initHvac() {
 }
 
 void handleHvac() {
-
-  // Print temperature to serial
   if (isControlLoopTimerExpired()){
     currentTemperature = readTemperature();
-    // logWithTimestamp("Temp: " + String(currentTemperature) + "C");
-    // Serial.println(currentTemperature);
     controlLoopTimerHvac = millis();
   }
-
 
   if (hvacCurrentState == HVAC_STATE_ON) {
 

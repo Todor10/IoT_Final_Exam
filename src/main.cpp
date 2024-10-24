@@ -16,7 +16,6 @@ void loop() {
   handleControlLoopTimer();
   handleLighting();
   handleHvac();
-  // Da bi ucitalo sve
   handleSerial();
 }
 

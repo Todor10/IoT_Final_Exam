@@ -1,5 +1,4 @@
 #include "security.h"
-#include "lighting.h"
 
 int readMotionSensor(void) {
   return digitalRead(PIN_MOTION_SENSOR);

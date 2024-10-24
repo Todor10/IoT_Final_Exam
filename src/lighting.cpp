@@ -1,7 +1,4 @@
 #include "lighting.h"
-#include "util.h"
-#include "security.h"
-#include "serial.h"
 
 LightingState lightingCurrentState;
 LightingState lightingPreviousState;
@@ -28,11 +25,8 @@ void initLighting(void) {
 
 void handleLighting(void) {
   
-    // Nece uci ovde dok se ne izvrsi prvi loop
   if (isControlLoopTimerExpired()){
     illuminationPrecent = readIllumination(); 
-    // logWithTimestamp("Iluminaiton: " + String(illuminationPrecent) + "%");
-    // Serial.println(illuminationPrecent); // float getIlluminationPrecent
     controlLoopTimerLighting = millis();
 
     if (lightingCurrentState == LIGHTING_STATE_AUTO) {
@@ -48,13 +42,11 @@ void handleLighting(void) {
     illuminationPrecent = readIllumination();
     if (illuminationPrecent < ILLUMINATION_TRESHOLD) {
       enableLight();
-      // logWithTimestamp("Light ON: Illumination < 30%");
     } else {
       disableLight();
     }
   }
   
-
   else if (lightingCurrentState == LIGHTING_STATE_OFF) {
     disableLight();
   }
@@ -63,7 +55,6 @@ void handleLighting(void) {
     enableLight();
   }
   
-
   else if (lightingCurrentState == LIGHTING_STATE_SECURE) {
 
     if(motionDetected()) {
