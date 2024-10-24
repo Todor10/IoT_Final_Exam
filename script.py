@@ -225,10 +225,10 @@ def sendReportMotion():
   print('Motion Report sent!')
 
 def format_min_sec(sec):
-  hours = sec // 3600
-  minutes = (sec % 3600) // 60
-  seconds = sec % 60
-  return f"{hours:02}:{minutes:02}:{seconds:02}"
+    hours = int(sec // 3600)
+    minutes = int((sec % 3600) // 60)
+    seconds = int(sec % 60)
+    return f"{hours:02}:{minutes:02}:{seconds:02}"
 
 
 # For extracting data from graphs 
@@ -325,7 +325,7 @@ def sendReport():
           </p>
       </body>
     </html>
-    """.format(datetime.date.today(), np.min(temperatureArray), np.max(temperatureArray), np.average(temperatureArray), np.min(illuminationArray), np.max(illuminationArray), np.average(illuminationArray), format_min_sec(sum_local_maxima(motionCounterArray)), format_min_sec(sum_local_maxima(securedStateTimerArray)), sum_local_maxima(autoStateTimerArray))
+    """.format(datetime.date.today(), np.min(temperatureArray), np.max(temperatureArray), np.average(temperatureArray), np.min(illuminationArray), np.max(illuminationArray), np.average(illuminationArray), sum_local_maxima(motionCounterArray), format_min_sec(sum_local_maxima(securedStateTimerArray)), format_min_sec(sum_local_maxima(autoStateTimerArray)))
 
   mimeText = MIMEText(htmlText, 'html')
   message.attach(mimeText)

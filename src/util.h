@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 
-#define CONTROL_LOOP_PERIOD_MINUTES 3
+#define CONTROL_LOOP_PERIOD_MINUTES 10
 #define MINUTES_TO_MILLIS(minutes) minutes * 1000UL * 60UL
 
 /**
