@@ -224,15 +224,24 @@ def sendReportMotion():
   server.quit()
   print('Motion Report sent!')
 
-def format_min_sec(sec):
+def formatSecMin(sec):
     hours = int(sec // 3600)
     minutes = int((sec % 3600) // 60)
     seconds = int(sec % 60)
     return f"{hours:02}:{minutes:02}:{seconds:02}"
 
+def calcTimeInState(arr):
+  if len(arr) == 0:
+    return 0
+  totalSum = 0
+  for i in range(len(arr) - 1):
+    if arr[i] != arr[i + 1]:
+       totalSum += arr[i]
+  totalSum += arr[-1]
+  return totalSum      
 
-# For extracting data from graphs 
-def sum_local_maxima(arr):
+# For counting motion detections
+def sumLocalMaxima(arr):
   if len(arr) == 0:
     return 0
  
@@ -325,7 +334,7 @@ def sendReport():
           </p>
       </body>
     </html>
-    """.format(datetime.date.today(), np.min(temperatureArray), np.max(temperatureArray), np.average(temperatureArray), np.min(illuminationArray), np.max(illuminationArray), np.average(illuminationArray), sum_local_maxima(motionCounterArray), format_min_sec(sum_local_maxima(securedStateTimerArray)), format_min_sec(sum_local_maxima(autoStateTimerArray)))
+    """.format(datetime.date.today(), np.min(temperatureArray), np.max(temperatureArray), np.average(temperatureArray), np.min(illuminationArray), np.max(illuminationArray), np.average(illuminationArray), sumLocalMaxima(motionCounterArray), formatSecMin(calcTimeInState(securedStateTimerArray)), formatSecMin(calcTimeInState(autoStateTimerArray)))
 
   mimeText = MIMEText(htmlText, 'html')
   message.attach(mimeText)
