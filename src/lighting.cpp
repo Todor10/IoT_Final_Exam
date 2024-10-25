@@ -27,12 +27,12 @@ void initLighting(void) {
 void handleLighting(void) {
   
   // Counts securedState and autoState timers with resolution of 1s
-  if((millis() - stateTimer) >= STATE_TIMER_PERIOD){
+  if((millis() - stateTimer) >= SECONDS_TO_MILLIS(STATE_TIMER_PERIOD_SECONDS)){
     if (lightingCurrentState == LIGHTING_STATE_AUTO) {
-      autoStateTimer = autoStateTimer + CONTROL_LOOP_PERIOD_MINUTES; 
+      autoStateTimer = autoStateTimer + STATE_TIMER_PERIOD_SECONDS; 
     }
     else if (lightingCurrentState == LIGHTING_STATE_SECURE) {
-      securedStateTimer = securedStateTimer + CONTROL_LOOP_PERIOD_MINUTES;
+      securedStateTimer = securedStateTimer + STATE_TIMER_PERIOD_SECONDS;
     }
     stateTimer = millis();
   }
