@@ -230,6 +230,15 @@ def formatSecMin(sec):
     seconds = int(sec % 60)
     return f"{hours:02}:{minutes:02}:{seconds:02}"
 
+"""
+If two adjacent points on the graph are the same,
+it means that the time in that state is the same,
+and we don’t need to sum them.
+
+If the second point is smaller than the first,
+it indicates that the Arduino was restarted in the meantime,
+so we should include that point in our total sum.
+ """
 def calcTimeInState(arr):
   if len(arr) == 0:
     return 0
@@ -241,6 +250,7 @@ def calcTimeInState(arr):
   return totalSum      
 
 # For counting motion detections
+# For [3, 3, 3, 4, 2] result is 6
 def sumLocalMaxima(arr):
   if len(arr) == 0:
     return 0
