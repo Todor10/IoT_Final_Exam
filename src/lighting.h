@@ -18,7 +18,8 @@
 #define DEFAULT_LIGHTING_STATE LIGHTING_STATE_AUTO
 #define DEFAULT_ILLUMINATION 100.0
 
-#define STATE_TIMER_PERIOD 1000
+#define STATE_TIMER_PERIOD_SECONDS 1
+#define SECONDS_TO_MILLIS(seconds) seconds * 1000UL
 
 /**
  * @brief states used for lighting state machine
@@ -96,4 +97,3 @@ uint32_t getSecuredStateTimer(void);
 uint32_t getAutoStateTimer(void);
 
 #endif // LIGHT_H
-
