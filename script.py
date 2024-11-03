@@ -11,6 +11,9 @@ from matplotlib import pyplot as plt
 import numpy as np
 import requests
 
+# google app password
+PASSWORD = 'hbzhcrhphodwbkyv'
+
 # Serial communication parameters
 PORT = 'COM6'
 BAUD_RATE = 9600
@@ -219,7 +222,7 @@ def sendReportMotion():
 
   server = smtplib.SMTP('smtp.gmail.com', 587)
   server.starttls()
-  r = server.login('todorovicn2002@gmail.com', 'msrrftgrvmsmbgvm')
+  r = server.login('todorovicn2002@gmail.com', PASSWORD)
   r = server.sendmail('todorovicn2002@gmail.com', 'todorovicn2002@gmail.com', message.as_string())
   server.quit()
   print('Motion Report sent!')
@@ -351,7 +354,7 @@ def sendReport():
 
   server = smtplib.SMTP('smtp.gmail.com', 587)
   server.starttls()
-  r = server.login('todorovicn2002@gmail.com', 'msrrftgrvmsmbgvm')
+  r = server.login('todorovicn2002@gmail.com', PASSWORD)
   r = server.sendmail('todorovicn2002@gmail.com', 'todorovicn2002@gmail.com', message.as_string())
   server.quit()
   print('Daily Report sent!')
@@ -362,7 +365,7 @@ serialCommunication = serial.Serial(PORT, BAUD_RATE)
 
 # Email login
 email = imaplib.IMAP4_SSL('imap.gmail.com')
-email.login('todorovicn2002@gmail.com', 'msrrftgrvmsmbgvm') # app password
+email.login('todorovicn2002@gmail.com', PASSWORD) # app password
 
 # Check email thread
 checkEmailThread = Thread(target=checkMail, args=(email, serialCommunication))
